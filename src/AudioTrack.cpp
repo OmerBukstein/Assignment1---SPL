@@ -34,6 +34,7 @@ AudioTrack::~AudioTrack() {
     // TODO: Implement the destructor
     #ifdef DEBUG
     std::cout << "AudioTrack destructor called for: " << title << std::endl;
+    //delete waveform_data;
     #endif
     // Your code here...
 }

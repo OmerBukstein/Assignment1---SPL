@@ -1,0 +1,22 @@
+1. What is the difference between ownership and borrowing in C++ code? How does this
+apply to the Playlist class?
+ההבדל המשמעותי הוא מבחינת ניהול הזיכרון ווהטרייד-אוף של כמות "הזיכרון המשוכפל" אך שהמחלקה פלייליסט דואגת לו, לבין השאלה בו אנחנו יכולים לחסוך בזיכרון, בכך שמכמה פלייליסטים יהיה מצביע לאותו שיר, במידה והוא כלול בכמה. 
+ נשים לב שבדרך בה בחרנו אין גישה לכל אחד דרך המיין לשדות של החוליות של הפלייליסט  ובכך נשמרת ההפרדה המאוד ברורה בין משתמש בקוד לבין מי "שמתעסק בפנים".
+2. What is the Rule of 3? What is the Rule of 5? When should we use the rule of 3, and
+when should we use the rule of 5?
+-----
+3. What problems occur when copying a Playlist object without proper Rule of 3 implementations?
+יכול להיווצר מצב בו אם לא נעשה העתקה עמוקה, שני אובייקטים יצביעון לאותו המקום בהיפ, ואז כאשר נמחוק אחד מהם ימחק גם לשני והוא יהפוך להיות האל פוינטר. לחלופין, יכול להיווצ מצב בו שחכנו לשחרר זיכרון שכביכול מחקנו, אך בפועל המחשב לא יכול לעשות בו שימוש למרות שאין לנו דרך לגשת אליו יותר.
+4. In the linked list context, why is it important to manage memory carefully when removing
+nodes?
+
+5. Why might a class prefer to delete its copy/move constructors and operators instead of
+implementing deep copying?
+
+
+
+
+שינויים:
+phase 1:
+בפעולות remove_track
+Playlist::~Playlist() - destructure

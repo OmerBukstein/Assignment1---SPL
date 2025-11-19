@@ -20,9 +20,7 @@ struct PlaylistNode {
     PlaylistNode* next;
 
     PlaylistNode(AudioTrack* t) : track(t), next(nullptr) {}
-    ~PlaylistNode(){
-        delete track;
-    }
+    ~PlaylistNode() = default; 
 };
 
 class Playlist {
@@ -37,10 +35,16 @@ public:
      */
     Playlist(const std::string& name="");
 
-    /**
+    /* Rule of 3
      * Destructor
      */
     ~Playlist();
+    
+    // Copy Constructor
+    Playlist(const Playlist& other_playlist);
+    
+     // Copy Asssignment operator
+    Playlist& operator=(const Playlist& other_playlist);
 
     /**
      * Add a track to the playlist

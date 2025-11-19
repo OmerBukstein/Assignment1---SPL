@@ -15,9 +15,9 @@
     // Disable inline suggestions and completions from AI
     "editor.inlineSuggest.enabled": false,
     "editor.quickSuggestions": {
-        "other": false,
-        "comments": false,
-        "strings": false
+        "other": true,
+        "comments": true,
+        "strings": true
     },
     
     // Disable snippets that might use AI
@@ -33,7 +33,7 @@
     
     // C++ specific settings
     "C_Cpp.intelliSenseEngine": "default",
-    "C_Cpp.autocomplete": "disabled",
+    "C_Cpp.autocomplete": "default",
     "C_Cpp.errorSquiggles": "enabled",
     
     // File associations
@@ -41,6 +41,8 @@
         "*.h": "cpp",
         "*.cpp": "cpp",
         "*.txt": "plaintext",
+        "iostream": "cpp",
+        "ostream": "cpp",
         "array": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -85,12 +87,10 @@
         "initializer_list": "cpp",
         "iomanip": "cpp",
         "iosfwd": "cpp",
-        "iostream": "cpp",
         "istream": "cpp",
         "limits": "cpp",
         "new": "cpp",
         "numbers": "cpp",
-        "ostream": "cpp",
         "span": "cpp",
         "sstream": "cpp",
         "stdexcept": "cpp",
@@ -102,8 +102,8 @@
     
     // Editor settings for academic integrity
     "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.acceptSuggestionOnEnter": "off",
-    "editor.tabCompletion": "off",
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.tabCompletion": "on",
     "editor.wordBasedSuggestions": "off",
     "editor.suggest.showWords": false,
     
@@ -117,5 +117,5 @@
     "editor.tabSize": 4,
     
     // Terminal settings
-    "terminal.integrated.defaultProfile.linux": "fish"
+    "terminal.integrated.defaultProfile.linux":"fish"
 }

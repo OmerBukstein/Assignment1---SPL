@@ -36,16 +36,21 @@ AudioTrack::~AudioTrack() {
     std::cout << "AudioTrack destructor called for: " << title << std::endl;
     //delete waveform_data;
     #endif
-    // Your code here...
+    delete [] waveform_data; //waveform_data is an array, we need to dealocate all the memory in it
 }
 
-AudioTrack::AudioTrack(const AudioTrack& other)
+AudioTrack::AudioTrack(const AudioTrack& other): title(other.title), artists(other.artists), duration_seconds(other.duration_seconds), 
+bpm(other.bpm), waveform_data(nullptr), waveform_size(other.waveform_size) //notice that every field is mentioned and by the order in the header
 {
     // TODO: Implement the copy constructor
     #ifdef DEBUG
     std::cout << "AudioTrack copy constructor called for: " << other.title << std::endl;
     #endif
-    // Your code here...
+    if (waveform_size>0){ //if there id memory to copy - initialize in heap 
+        waveform_data = new double[waveform_size];
+        other.get_waveform_copy(waveform_data, waveform_size); // other is a const ref, so use get_waveform_copy must be const  
+    }
+    
 }
 
 AudioTrack& AudioTrack::operator=(const AudioTrack& other) {
@@ -53,16 +58,32 @@ AudioTrack& AudioTrack::operator=(const AudioTrack& other) {
     #ifdef DEBUG
     std::cout << "AudioTrack copy assignment called for: " << other.title << std::endl;
     #endif
-    // Your code here...
+    if (this!=&other){
+        //copy the fields of other to this
+        title = other.title;
+        artists = other.artists;
+        duration_seconds = other.duration_seconds;
+        bpm = other.bpm; 
+        //dealocate waveform_data memory 
+        delete [] waveform_data;
+        waveform_data = nullptr; //initialize waveform_data  
+        waveform_size = other.waveform_size;
+        if (waveform_size>0){ //if we need to add data to waveform_data, do deep copy
+            waveform_data = new double[waveform_size];
+            other.get_waveform_copy(waveform_data, waveform_size);
+        }   
+    }
     return *this;
 }
 
-AudioTrack::AudioTrack(AudioTrack&& other) noexcept {
+AudioTrack::AudioTrack(AudioTrack&& other) noexcept : title(std::move(other.title)), artists(std::move(other.artists)), duration_seconds(other.duration_seconds), 
+bpm(other.bpm), waveform_data(other.waveform_data), waveform_size(other.waveform_size) {
     // TODO: Implement the move constructor
     #ifdef DEBUG
     std::cout << "AudioTrack move constructor called for: " << other.title << std::endl;
     #endif
-    // Your code here...
+    other.waveform_data = nullptr;
+    other.waveform_size = 0;
 }
 
 AudioTrack& AudioTrack::operator=(AudioTrack&& other) noexcept {
@@ -71,7 +92,21 @@ AudioTrack& AudioTrack::operator=(AudioTrack&& other) noexcept {
     #ifdef DEBUG
     std::cout << "AudioTrack move assignment called for: " << other.title << std::endl;
     #endif
-    // Your code here...
+    if (this != &other){
+        //stealing the fields
+        title = std::move(other.title);
+        artists = std::move(other.artists);
+        duration_seconds = other.duration_seconds;
+        bpm = other.bpm;
+        //dealocate "old" array from heap memory
+        delete [] waveform_data;            
+        //stealing the array from other
+        waveform_data = other.waveform_data;
+        waveform_size = other.waveform_size;
+        //reset waveform_data and waveform_size - temporary object
+        other.waveform_data = nullptr;
+        other.waveform_size = 0;
+    }
     return *this;
 }
 

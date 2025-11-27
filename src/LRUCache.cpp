@@ -18,7 +18,20 @@ AudioTrack* LRUCache::get(const std::string& track_id) {
  * TODO: Implement the put() method for LRUCache
  */
 bool LRUCache::put(PointerWrapper<AudioTrack> track) {
-    return false; // Placeholder
+    if (!track){
+        return false;
+    }
+    if (contains(track->get_title())){
+        slots[findSlot(track->get_title())].access(++access_counter);
+        return false;
+    }
+    bool evicted = false;
+    if (size() == max_size){
+        evicted = evictLRU();
+    }
+    size_t free_index = findEmptySlot();
+    slots[free_index].store(std::move(track), ++access_counter);
+    return evicted; 
 }
 
 bool LRUCache::evictLRU() {
@@ -57,14 +70,35 @@ size_t LRUCache::findSlot(const std::string& track_id) const {
         if (slots[i].isOccupied() && slots[i].getTrack()->get_title() == track_id) return i;
     }
     return max_size;
-
 }
 
 /**
  * TODO: Implement the findLRUSlot() method for LRUCache
  */
 size_t LRUCache::findLRUSlot() const {
-    return 0; // Placeholder
+    size_t min_index = max_size;
+    uint64_t min_access_time;
+    bool found_first = false;
+    size_t first_index = 0;
+    while (!found_first){ //finds first index that is occupied
+        if (first_index == max_size){ //if the whole slots are not occupied
+            return max_size;
+        }
+        else if (slots[first_index].isOccupied()){ //if first not occupied place is found, initial the values
+            min_access_time = slots[first_index].getLastAccessTime();
+            min_index = first_index;
+            found_first = true;
+        }
+        
+        first_index++;
+    }
+    for (size_t i = first_index; i< max_size ; ++i){ //iterates from the first index we found that is occupied, if found one, otherwise the while loop returns max_size
+        if (slots[i].isOccupied() && slots[i].getLastAccessTime() < min_access_time){
+            min_access_time = slots[i].getLastAccessTime();
+            min_index = i;
+        }
+    }
+    return min_index; 
 }
 
 size_t LRUCache::findEmptySlot() const {

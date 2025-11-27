@@ -31,10 +31,10 @@ void MP3Track::load() {
 void MP3Track::analyze_beatgrid() {
     std::cout << "[MP3Track::analyze_beatgrid] Analyzing beat grid for: \"" << title << "\"\n";
     //Calculate estimated beats
-    double beats = (duration_seconds / 60.0) * bpm;
+    int beats = (duration_seconds / 60.0) * bpm;
     //Calculate compression precision factor based on bitrate
     double precision_factor = bitrate /320.0;
-    std::cout <<"  -> Estimated beats:  " <<beats<< "  -> Compression precision factor:  "<<precision_factor<< std::endl;
+    std::cout <<"  -> Estimated beats:  " <<beats<< "  -> Compression precision factor:  "<<precision_factor<< std::endl; //casting in order to get like in test_output.txt
 }
 
 double MP3Track::get_quality_score() const {

@@ -150,7 +150,7 @@ void DJSession::simulate_dj_performance() {
         for (const auto& pair : session_config.playlists){ //map is dictionary which is already sorted by alphabet. iterates over all the pairs (name and songs order), and push into vector by the same order
             bool is_loaded = load_playlist(pair.first);
             if (is_loaded == false){
-                std::cout << "[ERROR] Playlist failed to load..." << std::endl;
+                std::cout << "[ERROR] Playlist: \"" << pair.first << "\" failed to load" << std::endl;
                 stats.errors++; //wasn't incremented in load_playlist
             }
             else{
@@ -158,10 +158,11 @@ void DJSession::simulate_dj_performance() {
                     std::cout << "\n-- Processing: " << track << std::endl;
                     stats.tracks_processed++;
                     load_track_to_controller(track); //load_track_to_controller updates cache statistics by MISS/HIT 
+                    controller_service.displayCacheStatus(); //prints cache status
                     load_track_to_mixer_deck(track); //load_track_to_mixer_deck updates mixer statistics by MISS/HIT 
+                    mixing_service.displayDeckStatus(); //prints mixing status
                 }
                 print_session_summary();
-                reset_session_stats();
             }
         }
     }
@@ -170,7 +171,7 @@ void DJSession::simulate_dj_performance() {
         while (playlist_name!=""){
             bool is_loaded = load_playlist(playlist_name);
             if (is_loaded == false){
-                std::cout << "[ERROR] Playlist failed to load..." << std::endl;
+                std::cout << "[ERROR] Playlist: \"" << playlist_name << "\" failed to load" << std::endl; 
                 stats.errors++; //wasn't incremented in load_playlist
             }
             else{
@@ -178,10 +179,11 @@ void DJSession::simulate_dj_performance() {
                     std::cout << "\n-- Processing: " << track << std::endl;
                     stats.tracks_processed++;
                     load_track_to_controller(track); //load_track_to_controller updates cache statistics by MISS/HIT
+                    controller_service.displayCacheStatus(); //prints cache status
                     load_track_to_mixer_deck(track); //load_track_to_mixer_deck updates mixer statistics by MISS/HIT  
+                    mixing_service.displayDeckStatus(); //prints mixing status
                 }
-                print_session_summary();
-                reset_session_stats();      
+                print_session_summary();     
             }
             playlist_name = display_playlist_menu_from_config(); //prompt again - interacrive mode
         }

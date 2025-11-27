@@ -39,7 +39,7 @@ private:
     ConfigurationManager config_manager;
     SessionConfig session_config;
     std::vector<std::string> track_titles;
-    bool play_all = false;
+    bool play_all;
     // Session statistics
     struct SessionStats {
         size_t tracks_processed = 0;
@@ -120,9 +120,4 @@ private:
      * @brief Print final session summary with statistics
      */
     void print_session_summary() const;
-
-    /**
-     * @brief reset all fields of SessionStats
-     */
-    void reset_session_stats();
 };

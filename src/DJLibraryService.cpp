@@ -8,7 +8,7 @@
 
 
 DJLibraryService::DJLibraryService(const Playlist& playlist) 
-    : playlist(playlist) {}
+    : playlist(playlist), library() {}
 
 //Destructor - removes all pointers of track from vector
 DJLibraryService::~DJLibraryService(){

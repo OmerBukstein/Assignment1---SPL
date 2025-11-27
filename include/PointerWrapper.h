@@ -38,7 +38,7 @@ public:
      * Is the default destructor sufficient here?
      */
     ~PointerWrapper() {
-        delete ptr;
+        delete ptr; //dealocate memeory in the heap
     }
 
     // ========== COPY OPERATIONS (DELETED) ==========
@@ -62,7 +62,7 @@ public:
      * HINT: How should ownership transfer from one wrapper to another?
      * What should happen to the source wrapper after the move?
      */
-    PointerWrapper(PointerWrapper&& other) noexcept : ptr(other.ptr) { 
+    PointerWrapper(PointerWrapper&& other) noexcept : ptr(other.ptr) {  //stealing other pointer, then initial it with nullptr
         other.ptr = nullptr;
     }
 
@@ -71,7 +71,7 @@ public:
      * HINT: Handle cleanup of current resource and ownership transfer
      * Don't forget about self-assignment!
      */
-    PointerWrapper& operator=(PointerWrapper&& other) noexcept {
+    PointerWrapper& operator=(PointerWrapper&& other) noexcept { //first check if it is not the same pointer, then delete cureent pointer in order to steal other's
         if (this != &other){
             delete ptr;
             ptr = other.ptr;
@@ -88,7 +88,7 @@ public:
      * @throws std::runtime_error if ptr is null
      */
 
-    T& operator*() const {
+    T& operator*() const { //like * operation, returens the object itself
         if (ptr == nullptr){
             throw std::runtime_error("Null pointer dereference");
         }
@@ -100,7 +100,7 @@ public:
      * HINT: How do you access members of the wrapped object?
      * What safety checks should you perform?
      */
-    T* operator->() const {
+    T* operator->() const { //make -> in recursion, it means that it goes to ptr's object, and then with -> we can call the functions there
         if (ptr == nullptr){
             throw std::runtime_error("Null pointer access via arrow operator");
         }
@@ -113,7 +113,7 @@ public:
      * What should this function return?
      * @throws std::runtime_error if ptr is null
      */
-    T* get() const {
+    T* get() const { //returns the address to the object
         if (ptr == nullptr){
             throw std::runtime_error("Null pointer access via get operation");
         }
@@ -127,7 +127,7 @@ public:
      * HINT: What does "release" mean in terms of ownership?
      * Should the wrapper still own the pointer after calling release()?
      */
-    T* release() {
+    T* release() { //returns the address to the object, but put nullptr in ptr, in order to avoid to pointers to the same address in the heap
         T* address_pointer = ptr;
         ptr = nullptr; 
         return address_pointer;
@@ -138,7 +138,7 @@ public:
      * HINT: How do you replace the currently wrapped pointer?
      * What should happen to the old pointer?
      */
-    void reset(T* new_ptr = nullptr) {
+    void reset(T* new_ptr = nullptr) { //first checks that it's not the same address, otherwise we will not do anything. then, dealocates the old memory fron the heap, in order to prevent memory leak, and finally puts the new address
         if (ptr != new_ptr){
             delete ptr;
             ptr = new_ptr;
@@ -152,7 +152,7 @@ public:
      * HINT: When should a wrapper be considered "true" or "false"?
      * Why might the explicit keyword be important here?
      */
-    explicit operator bool() const {
+    explicit operator bool() const { 
         if (ptr != nullptr){
             return true;
         }
@@ -163,7 +163,7 @@ public:
      * Swap two PointerWrapper objects
      * This is implemented for you as a reference
      */
-    void swap(PointerWrapper& other) noexcept {
+    void swap(PointerWrapper& other) noexcept { 
         std::swap(ptr, other.ptr);
     }
 };

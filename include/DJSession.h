@@ -120,4 +120,9 @@ private:
      * @brief Print final session summary with statistics
      */
     void print_session_summary() const;
+
+    /**
+     * @brief reset all fields of SessionStats
+     */
+    void reset_session_stats();
 };

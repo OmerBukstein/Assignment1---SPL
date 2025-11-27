@@ -17,6 +17,21 @@ public:
     DJLibraryService() = default;
 
     /**
+     * Destructor
+     */
+    ~DJLibraryService();
+    /**
+     * Copy constructor
+     * Deep copy for all fields
+     */
+    DJLibraryService(const DJLibraryService& other);
+    
+    /**
+     * Copy assignment operator
+     */
+    DJLibraryService& operator=(const DJLibraryService& other);
+
+    /**
      * @brief Build the track library from parsed config data
      * @param library_tracks Vector of track info from config
      */

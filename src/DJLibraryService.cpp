@@ -18,7 +18,7 @@ DJLibraryService::~DJLibraryService(){
 }
 
 //Copy constructor - makes deep copy to other DJ library 
-DJLibraryService::DJLibraryService(const DJLibraryService& other): playlist(other.playlist){
+DJLibraryService::DJLibraryService(const DJLibraryService& other): playlist(other.playlist), library(){
     if (!other.library.empty()){ 
         for (AudioTrack* track : other.library){
             if (track != nullptr){ //checks that we will not make clone on nullptr track

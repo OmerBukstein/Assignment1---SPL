@@ -171,6 +171,7 @@ void DJSession::simulate_dj_performance() {
                     mixing_service.displayDeckStatus(); //prints mixing status
                 }
                 print_session_summary();
+                //stats = SessionStats();
             }
         }
     }
@@ -191,7 +192,8 @@ void DJSession::simulate_dj_performance() {
                     load_track_to_mixer_deck(track); //load_track_to_mixer_deck updates mixer statistics by MISS/HIT  
                     mixing_service.displayDeckStatus(); //prints mixing status
                 }
-                print_session_summary();     
+                print_session_summary();
+                //stats = SessionStats();     
             }
             playlist_name = display_playlist_menu_from_config(); //prompt again - interacrive mode
         }
@@ -285,7 +287,4 @@ void DJSession::print_session_summary() const {
     std::cout << "Transitions: " << stats.transitions << std::endl;
     std::cout << "Errors: " << stats.errors << std::endl;
     std::cout << "=== Session Complete ===" << std::endl;
-}
-void DJSession::reset_session_stats(){
-    stats = SessionStats();
 }

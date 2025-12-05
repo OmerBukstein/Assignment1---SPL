@@ -154,6 +154,7 @@ void DJSession::simulate_dj_performance() {
     std::cout << "\n--- Processing Tracks ---" << std::endl;
 
     // Your implementation here
+
     if (play_all == true){
         for (const auto& pair : session_config.playlists){ //map is dictionary which is already sorted by alphabet. iterates over all the pairs (name and songs order), and push into vector by the same order
             bool is_loaded = load_playlist(pair.first);
@@ -162,6 +163,7 @@ void DJSession::simulate_dj_performance() {
                 stats.errors++; //wasn't incremented in load_playlist
             }
             else{
+                std::reverse(track_titles.begin(), track_titles.end());
                 for (std::string track:track_titles){
                     std::cout << "\n-- Processing: " << track << std::endl;
                     stats.tracks_processed++;
@@ -183,7 +185,9 @@ void DJSession::simulate_dj_performance() {
                 std::cout << "[ERROR] Playlist: \"" << playlist_name << "\" failed to load" << std::endl; 
                 stats.errors++; //wasn't incremented in load_playlist
             }
+            
             else{
+                std::reverse(track_titles.begin(), track_titles.end());
                 for (std::string track:track_titles){
                     std::cout << "\n-- Processing: " << track << std::endl;
                     stats.tracks_processed++;
